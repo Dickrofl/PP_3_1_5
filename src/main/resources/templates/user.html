@@ -1,11 +1,42 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security>"
+      xmlns="http://www.w3.org/1999/html">
 <head>
-    <title>Spring Security Example</title>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<meta charset="UTF-8">
+<title>User Management</title>
 </head>
 <body>
-<h1>User, welcome spring boot security page!</h1>
 
 
+<br/>
+<h2>User Profile</h2>
+<table border="1">
+    <tr>
+        <th>ID</th>
+        <th>Username</th>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Email</th>
+        <th>Password</th>
+        <th>Roles</th>
+    </tr>
+    <tr sec:authorize="hasRole('ADMIN') or hasRole('USER')" th:with="roles=${user.roles}">
+        <td th:text="${user.id}"></td>
+        <td th:text="${user.username}"></td>
+        <td th:text="${user.firstName}"></td>
+        <td th:text="${user.lastName}"></td>
+        <td th:text="${user.email}"></td>
+        <td th:text="${user.password}"></td>
+        <td>
+            <ul>
+                <li th:each="role : ${roles}" th:text="${role.name.replace('ROLE_', '')}"></li>
+            </ul>
+        </td>
+    </tr>
+</table>
 </body>
 </html>

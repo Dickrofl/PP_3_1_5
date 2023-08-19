@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<meta charset="UTF-8">
+<title>User Management</title>
+</head>
+<body>
+<h2>Add New User</h2>
+
+<form th:method="POST" th:action="@{/new}" th:object="${newuser}">
+    <label for="username">Username</label>
+    <input type="text" th:field="*{username}" id="username"/>
+    <label for="name">First Name</label>
+    <input type="text" th:field="*{firstName}" id="name"/>
+    <label for="lastname">Last Name</label>
+    <input type="text" th:field="*{lastName}" id="lastname"/>
+    <label for="email">Email</label>
+    <input type="text" th:field="*{email}" id="email"/>
+    <label for="password">Password</label>
+    <input type="text" th:field="*{password}" id="password"/>
+    <br>
+    <label for="roles">Roles</label>
+    <select name="roles">
+        <option th:each="role : ${roles}"
+                th:value="${role.id}"
+                th:text="${role.name}" id="roles"></option>
+    </select>
+    <input type="submit" value="Add New User"/>
+</form>
+
+<br/>
+<h2>All Users</h2>
+<br/>
+
+<table border="1">
+    <thead>
+    <tr>
+        <th>Username</th>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Email</th>
+        <th>Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="user : ${user}">
+        <td th:text="${user.username}"></td>
+        <td th:text="${user.firstName}"></td>
+        <td th:text="${user.lastName}"></td>
+        <td th:text="${user.email}"></td>
+        <td><a th:href="@{'/editUsers/' + ${user.getId()}}">edit</a>
+            <a th:href="@{'/delete/' + ${user.getId()}}">delete</a></td>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
