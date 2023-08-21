@@ -8,7 +8,7 @@
 <body>
 Edit User
 
-<form th:method="POST" th:action="@{/editUsers}" th:object="${user}">
+<form th:method="PUT" th:action="@{/editUsers}" th:object="${user}">
     <label for="id">Id</label>
     <input type="text" th:field="*{id}" id="id"/>
     <br/>

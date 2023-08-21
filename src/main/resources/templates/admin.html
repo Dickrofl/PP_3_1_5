@@ -52,8 +52,14 @@
         <td th:text="${user.firstName}"></td>
         <td th:text="${user.lastName}"></td>
         <td th:text="${user.email}"></td>
-        <td><a th:href="@{'/editUsers/' + ${user.getId()}}">edit</a>
-            <a th:href="@{'/delete/' + ${user.getId()}}">delete</a></td>
+        <td>
+            <form th:action="@{'/editUsers/' + ${user.getId()}}" method="get">
+                <button type="submit">edit</button>
+            </form>
+            <form th:action="@{'/delete/' + ${user.getId()}}" method="POST">
+                <input type="hidden" name="_method" value="DELETE"/>
+                <button type="submit">delete</button>
+            </form>
         </td>
     </tr>
     </tbody>
