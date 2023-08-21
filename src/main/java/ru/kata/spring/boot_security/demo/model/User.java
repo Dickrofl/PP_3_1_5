@@ -2,6 +2,7 @@ package ru.kata.spring.boot_security.demo.model;
 
 import com.sun.istack.NotNull;
 import lombok.Data;
+import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -37,6 +38,7 @@ public class User implements UserDetails {
     @Column(name = "password")
     private String password;
 
+    @Getter
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "users_roles",
@@ -60,7 +62,7 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return getRoles();
     }
 
     @Override
@@ -81,5 +83,15 @@ public class User implements UserDetails {
     @Override
     public boolean isEnabled() {
         return false;
+    }
+
+    public String getRolesToString() {
+        StringBuilder roleRoles = new StringBuilder();
+        for (Role role : getRoles()) {
+            String roleName = role.getRole().replace("ROLE_", "");
+            roleRoles.append(roleName)
+                    .append(", ");
+        }
+        return roleRoles.toString().replaceAll(", $", "");
     }
 }

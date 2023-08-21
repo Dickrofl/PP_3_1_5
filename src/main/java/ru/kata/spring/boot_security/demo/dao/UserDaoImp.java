@@ -1,6 +1,8 @@
 package ru.kata.spring.boot_security.demo.dao;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import ru.kata.spring.boot_security.demo.configs.WebSecurityConfig;
 import ru.kata.spring.boot_security.demo.model.User;
 
 import javax.persistence.EntityManager;
@@ -10,6 +12,8 @@ import java.util.List;
 
 @Repository
 public class UserDaoImp implements UserDao {
+    @Autowired
+    WebSecurityConfig webSecurityConfig;
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -17,12 +21,16 @@ public class UserDaoImp implements UserDao {
     @Override
     @Transactional
     public void saveUser(User user) {
+        String hashedPassword = webSecurityConfig.passwordEncoder().encode(user.getPassword());
+        user.setPassword(hashedPassword);
         entityManager.persist(user);
     }
 
     @Override
     @Transactional
     public void updateUser(User user) {
+        String hashedPassword = webSecurityConfig.passwordEncoder().encode(user.getPassword());
+        user.setPassword(hashedPassword);
         entityManager.merge(user);
     }
 
