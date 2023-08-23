@@ -1,8 +1,6 @@
 package ru.kata.spring.boot_security.demo.model;
 
 import com.sun.istack.NotNull;
-import lombok.Data;
-import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -10,9 +8,9 @@ import javax.persistence.*;
 import java.util.Collection;
 
 @Table(name = "users")
-@Data
 @Entity
 public class User implements UserDetails {
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,13 +20,19 @@ public class User implements UserDetails {
     @Column(name = "username")
     private String username;
 
+
+
     @NotNull
     @Column(name = "firstName")
     private String firstName;
 
+
+
     @NotNull
     @Column(name = "lastName")
     private String lastName;
+
+
 
     @NotNull
     @Column(name = "email")
@@ -38,7 +42,7 @@ public class User implements UserDetails {
     @Column(name = "password")
     private String password;
 
-    @Getter
+
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "users_roles",
@@ -93,5 +97,63 @@ public class User implements UserDetails {
                     .append(", ");
         }
         return roleRoles.toString().replaceAll(", $", "");
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    @Override
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    @Override
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setRoles(Collection<Role> roles) {
+        this.roles = roles;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public Collection<Role> getRoles() {
+        return roles;
     }
 }

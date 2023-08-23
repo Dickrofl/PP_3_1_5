@@ -9,6 +9,9 @@
         <module name="spring-boot_security-demo" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="3.1.4" target="17" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
