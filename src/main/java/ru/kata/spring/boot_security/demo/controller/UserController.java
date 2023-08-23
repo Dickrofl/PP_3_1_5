@@ -30,7 +30,7 @@ public class UserController {
     public String getUserPage(Principal principal, Model model) {
         String username = principal.getName();
         User user = customUserDetailsService.findByUsername(username);
-        model.addAttribute("user", daoUserService.getUserById(user.getId()));
+        model.addAttribute("currentUser", daoUserService.getUserById(user.getId()));
         return "user";
     }
 //    @GetMapping("/user")

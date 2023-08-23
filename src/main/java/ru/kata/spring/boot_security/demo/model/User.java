@@ -1,11 +1,16 @@
 package ru.kata.spring.boot_security.demo.model;
 
 import com.sun.istack.NotNull;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 @Table(name = "users")
 @Entity
@@ -15,57 +20,50 @@ public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-
     @NotNull
-    @Column(name = "username")
-    private String username;
-
-
-
-    @NotNull
-    @Column(name = "firstName")
+    @Column(name = "first_Name")
     private String firstName;
 
 
 
     @NotNull
-    @Column(name = "lastName")
+    @Column(name = "last_Name")
     private String lastName;
 
+    @Column(name = "age")
+    private Byte age;
 
 
-    @NotNull
+
     @Column(name = "email")
-    private String email;
+    private String username;
 
-    @NotNull
     @Column(name = "password")
     private String password;
 
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany
+    @Fetch(FetchMode.JOIN)
     @JoinTable(
             name = "users_roles",
             joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "roles_id")
-    )
-    private Collection<Role> roles;
+            inverseJoinColumns = @JoinColumn(name = "roles_id"))
+
+    private Set<Role> roles = new HashSet<>();
 
     public User() {
     }
 
-    public User(long id, String username, String firstName, String lastName, String email, String password, Collection<Role> roles) {
-        this.id = id;
-        this.username = username;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.password = password;
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
         this.roles = roles;
     }
 
     @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
+    public Set<? extends GrantedAuthority> getAuthorities() {
         return getRoles();
     }
 
@@ -99,8 +97,36 @@ public class User implements UserDetails {
         return roleRoles.toString().replaceAll(", $", "");
     }
 
+    public long getId() {
+        return id;
+    }
+
     public void setId(long id) {
         this.id = id;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public Byte getAge() {
+        return age;
+    }
+
+    public void setAge(Byte age) {
+        this.age = age;
     }
 
     @Override
@@ -112,18 +138,6 @@ public class User implements UserDetails {
         this.username = username;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
     @Override
     public String getPassword() {
         return password;
@@ -133,27 +147,6 @@ public class User implements UserDetails {
         this.password = password;
     }
 
-    public void setRoles(Collection<Role> roles) {
-        this.roles = roles;
-    }
 
-    public long getId() {
-        return id;
-    }
 
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public Collection<Role> getRoles() {
-        return roles;
-    }
 }

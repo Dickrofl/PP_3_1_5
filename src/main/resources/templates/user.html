@@ -1,64 +1,89 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="https://www.thymeleaf.org"
+      lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <title>User page</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/assets/css/styles.min.css">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"
+          integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
+    <link href="https://getbootstrap.com/docs/4.0/examples/signin/signin.css" rel="stylesheet"
+          crossorigin="anonymous"/>
 </head>
-
-<body style="background: rgb(248,249,250);height: 800px;">
-<div class="row" style="width: auto;">
-    <div class="col-12 col-xl-12 mt-auto" style="width: auto;">
-        <nav class="navbar navbar-light navbar-expand-md fixed-top navigation-clean-button" style="height: 50px;background-color: #37434d;color: #ffffff;width: auto;">
-            <div class="container-fluid">
-                    <span style="color: rgb(255, 255, 255);"
-                          th:text="${user.getUsername()} +
-                          ' with roles: ' +
-                          ${user.getRolesToString()}">
-                    </span>
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" style="color:#ffffff;" href="/logout">Logout</a></li>
-                </ul>
-            </div>
-        </nav>
-    </div>
-</div>
-<div class="row gx-2 d-flex flex-grow-1 align-items-stretch justify-content-xl-end align-items-xl-start" style="height: auto;margin-right: 0px;margin-top: 50px;padding-top: 10px;"><div class="col-2 visible" style="background: #ffffff; margin-top: 0px; height: 800px;">
-    <ul class="nav nav-tabs flex-column d-inline" style="height: auto; border-bottom-width: 0px; padding-top: 10px; background: #ffffff; margin-bottom: 0px; padding-bottom: 0px;">
-        <li class="nav-item" style="background: #37434d;">
-            <a class="nav-link active" href="/user" style="background: #37434d; color: white;">User</a>
-        </li>
-    </ul>
-</div>
-    <div class="col-9 flex-grow-1 align-self-baseline">
-        <h1 style="font-size: 35px;margin-bottom: 10px;margin-top: 10px;margin-left: 20px;margin-right: 20px;">User-information page</h1>
-        <p class="border rounded-0" style="padding-left: 10px;padding-top: 10px;padding-bottom: 10px;background: #f8f9fa;margin-top: 15px;margin-right: 0px;margin-bottom: 0px;margin-left: 0px;">User page</p>
-        <div class="table-responsive border rounded-0" style="padding-bottom: 20px;">
-            <table class="table table-striped">
-                <thead>
-                <tr>
-                    <th class="text-center">First Name</th>
-                    <th class="text-center">Last Name</th>
-                    <th class="text-center">Email</th>
-                    <th class="text-center">Role</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="user: ${user}">
-                    <td class="text-center" th:text="${user.firstName}"></td>
-                    <td class="text-center" th:text="${user.lastName}"></td>
-                    <td class="text-center" th:text="${user.email}"></td>
-                    <td class="text-center" th:text="${user.getRolesToString()}"></td>
-                </tr>
-                </tbody>
-            </table>
+<body>
+<!--Navbar-->
+<nav class="navbar align-top text-white navbar-expand-xl navbar-dark bg-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" id="current-user-info"><b th:text="${currentUser.username}"></b> with roles: <b th:each="role : ${currentUser.roles}" th:text="${role.name}"></b></a>
+        <div class="text-right">
+            <form class="d-flex" action="/logout" method="post">
+                <button class="btn btn-dark text-secondary" type="submit"><strong>Logout</strong></button>
+            </form>
         </div>
     </div>
-</div>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"></script>
-</body>
+</nav>
 
+<!--Page container-->
+<div class="container-fluid">
+    <div class="row row-cols-2 text-black">
+        <!--        Left navigation bar-->
+        <div class="col-sm-2 bg-white">
+            <div class="nav flex-column nav-pills pt-4" id="v-pills-tab" role="tablist">
+                <a class="nav-link active" role="tab" aria-controls="v-pills-profile" aria-selected="false"
+                   id="user-nav-link">User</a>
+            </div>
+        </div>
+        <!--                Main container-->
+        <div class="col-10 container-fluid">
+            <div id="user-panel-title" class="h1">User-information page</div>
+            <div class="tab-content">
+                <!--                Card filling-->
+                <div class="card">
+                    <!--                    Admin panel-->
+                    <div id="admin-panel">
+                        <!--                    Card header-->
+                        <div class="card-header m-1" id="adminPanelName">
+                            <div id="users-tab-name" class="h3">About user</div>
+                        </div>
+                        <!--                    Card body-->
+                        <div class="card-body" id="all-users-card-body">
+                            <table class="table table-striped table-hover" id="users-table">
+                                <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>First name</th>
+                                    <th>Last name</th>
+                                    <th>Age</th>
+                                    <th>Email</th>
+                                    <th>Role</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td th:text="${currentUser.id}"></td>
+                                    <td th:text="${currentUser.firstName}"></td>
+                                    <td th:text="${currentUser.lastName}"></td>
+                                    <td th:text="${currentUser.age}"></td>
+                                    <td th:text="${currentUser.username}"></td>
+                                    <td th:each="role : ${currentUser.roles}" th:text="${role.name}"></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <!--                Card filling end-->
+            </div>
+        </div>
+        <!--                Main container end-->
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF"
+        crossorigin="anonymous"></script>
+</body>
 </html>

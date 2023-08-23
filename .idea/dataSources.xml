@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="securiti_base" uuid="096e9482-adae-417a-8278-89c2104ceccd">
+    <data-source source="LOCAL" name="javascript" uuid="c4d8aa06-e493-477b-8d61-f5f533c13489">
       <driver-ref>mysql.8</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
-      <jdbc-url>jdbc:mysql://localhost:3306/securiti_base</jdbc-url>
+      <jdbc-url>jdbc:mysql://localhost:3306/javascript</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
   </component>
