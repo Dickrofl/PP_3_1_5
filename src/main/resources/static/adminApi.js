@@ -44,7 +44,7 @@ async function updateCurrentUserInfo() {
         const roles = document.createElement("b")
 
         username.insertAdjacentText("afterbegin", user.username)
-        roles.insertAdjacentText("beforeend", user.roles.map(role => " " + role.name))
+        roles.insertAdjacentText("beforeend", user.roles.map(role => " " + role.name.replace('ROLE_', '')).join(','))
 
         if (!userInfo.hasChildNodes()) {
             userInfo.appendChild(username)
@@ -52,7 +52,8 @@ async function updateCurrentUserInfo() {
             userInfo.appendChild(roles)
         } else {
             userInfo.firstChild.replaceWith(username)
-            userInfo.lastChild.replaceWith(roles)
+            let rolesText = user.roles.map(role => " " + role.name.replace('ROLE_', '')).join(',')
+            userInfo.lastChild.replaceWith(rolesText)
         }
     })
 }
@@ -99,7 +100,8 @@ function showUserPanel() {
         tblBodyRow.insertCell().appendChild(document.createTextNode(user.lastName))
         tblBodyRow.insertCell().appendChild(document.createTextNode(user.age))
         tblBodyRow.insertCell().appendChild(document.createTextNode(user.username))
-        tblBodyRow.insertCell().appendChild(document.createTextNode(user.roles.map(role => role.name)))
+        let rolesText = user.roles.map(role => " " + role.name.replace('ROLE_', '')).join(',')
+        tblBodyRow.insertCell().appendChild(document.createTextNode(rolesText))
     })
 }
 
@@ -161,7 +163,8 @@ async function showAdminPanel() {
                 tblBodyRow.insertCell().appendChild(document.createTextNode(user.lastName))
                 tblBodyRow.insertCell().appendChild(document.createTextNode(user.age))
                 tblBodyRow.insertCell().appendChild(document.createTextNode(user.username))
-                tblBodyRow.insertCell().appendChild(document.createTextNode(user.roles.map(roles => " " + roles.name)))
+                let rolesText = user.roles.map(role => " " + role.name.replace('ROLE_', '')).join(',')
+                tblBodyRow.insertCell().appendChild(document.createTextNode(rolesText))
                 tblBodyRow.insertCell().appendChild(editButton)
                 tblBodyRow.insertCell().appendChild(deleteButton)
             })
@@ -252,8 +255,6 @@ function showEditUserForm(id) {
             $("#editModal").modal()
         })
 }
-
-
 
 
 function editUser() {

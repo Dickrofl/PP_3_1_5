@@ -4,11 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
 import ru.kata.spring.boot_security.demo.dao.UserDao;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.repository.CustomUserDetailsService;
-
 import java.security.Principal;
 
 
@@ -33,9 +31,4 @@ public class UserController {
         model.addAttribute("currentUser", daoUserService.getUserById(user.getId()));
         return "user";
     }
-//    @GetMapping("/user")
-//    public String show(Principal principal, Model model) {
-//        model.addAttribute("user", userService.getUserByLogin(principal.getName()));
-//        return "user";
-//    }
 }

@@ -4,18 +4,15 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.kata.spring.boot_security.demo.dao.UserDao;
-
 import ru.kata.spring.boot_security.demo.model.User;
-import ru.kata.spring.boot_security.demo.repository.RoleRepository;
 import ru.kata.spring.boot_security.demo.repository.RoleService;
 import ru.kata.spring.boot_security.demo.repository.UserRepository;
 
 
 @Controller
-@RequestMapping( "/admin")
+@RequestMapping("/admin")
 public class AdminsController {
     private final UserDao userService;
     private final RoleService roleService;
@@ -46,7 +43,7 @@ public class AdminsController {
         return "redirect:/new";
     }
 
-    @PostMapping ("/new")
+    @PostMapping("/new")
     public String saveNewUser(@ModelAttribute("user") User user) {
 
         roleService.setUserRoles(user);
@@ -54,7 +51,7 @@ public class AdminsController {
         return "redirect:/admin";
     }
 
-    @PatchMapping ("/edit/{id}")
+    @PatchMapping("/edit/{id}")
     public String updateUser(@ModelAttribute("user") User user) {
         roleService.setUserRoles(user);
         userService.updateUser(user);

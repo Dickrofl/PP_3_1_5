@@ -112,7 +112,7 @@
                                             <select multiple class="form-control" id="addRoles" name="addRoles"
                                                     th:size="${currentUser.roles.size()}">
                                                 <option selected th:each="role : ${roles}"
-                                                        th:text="${role.name}"
+                                                        th:text="${#strings.replace(role.name, 'ROLE_', '')}"
                                                         th:value="${role.name}">
                                                 </option>
                                             </select>
@@ -171,8 +171,8 @@
 
                             <label for="editRoles"><strong>Role</strong></label>
                             <select class="form-control" name="editRoles" id="editRoles" size="2" multiple required>
-                                <option value="ROLE_ADMIN">ROLE_ADMIN</option>
-                                <option value="ROLE_USER">ROLE_USER</option>
+                                <option value="ROLE_ADMIN">ADMIN</option>
+                                <option value="ROLE_USER">USER</option>
                             </select>
                         </div>
                     </div>
@@ -205,7 +205,8 @@
                                    readonly>
 
                             <label for="deleteFirstName"><strong>First name</strong></label>
-                            <input type="text" class="form-control" name="deleteFirstName" id="deleteFirstName" readonly>
+                            <input type="text" class="form-control" name="deleteFirstName" id="deleteFirstName"
+                                   readonly>
 
                             <label for="deleteLastName"><strong>Last name</strong></label>
                             <input type="text" class="form-control" name="deleteLastName" id="deleteLastName" readonly>
@@ -217,9 +218,10 @@
                             <input type="email" class="form-control" name="deleteUsername" id="deleteUsername" readonly>
 
                             <label for="deleteRoles"><strong>Role</strong></label>
-                            <select class="form-control" name="deleteRoles" id="deleteRoles" size="2" multiple required readonly>
-                                <option value="ROLE_ADMIN">ROLE_ADMIN</option>
-                                <option value="ROLE_USER">ROLE_USER</option>
+                            <select class="form-control" name="deleteRoles" id="deleteRoles" size="2" multiple required
+                                    readonly>
+                                <option value="ROLE_ADMIN">ADMIN</option>
+                                <option value="ROLE_USER">USER</option>
                             </select>
                         </div>
                     </div>

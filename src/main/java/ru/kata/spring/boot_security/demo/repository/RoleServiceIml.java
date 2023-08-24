@@ -4,8 +4,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
-
-
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -29,13 +27,13 @@ public class RoleServiceIml implements RoleService {
     }
 
     @Override
-    public void setUserRoles(User user){
+    public void setUserRoles(User user) {
         user.setRoles(user.getRoles().stream()
                 .map(this::getRole).collect(Collectors.toSet()));
     }
 
     @Override
-    public Role getRole(Role role){
+    public Role getRole(Role role) {
         return roleRepository.getById(role.getId());
     }
 

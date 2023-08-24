@@ -7,37 +7,28 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
 @Table(name = "users")
 @Entity
 public class User implements UserDetails {
-
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     @NotNull
     @Column(name = "first_Name")
     private String firstName;
-
-
-
     @NotNull
     @Column(name = "last_Name")
     private String lastName;
-
+    @NotNull
     @Column(name = "age")
     private Byte age;
-
-
-
+    @NotNull
     @Column(name = "email")
     private String username;
-
+    @NotNull
     @Column(name = "password")
     private String password;
 
@@ -87,55 +78,25 @@ public class User implements UserDetails {
         return false;
     }
 
-    public String getRolesToString() {
-        StringBuilder roleRoles = new StringBuilder();
-        for (Role role : getRoles()) {
-            String roleName = role.getRole().replace("ROLE_", "");
-            roleRoles.append(roleName)
-                    .append(", ");
-        }
-        return roleRoles.toString().replaceAll(", $", "");
-    }
-
     public long getId() {
         return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
     }
 
     public String getFirstName() {
         return firstName;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
     public String getLastName() {
         return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
     }
 
     public Byte getAge() {
         return age;
     }
 
-    public void setAge(Byte age) {
-        this.age = age;
-    }
-
     @Override
     public String getUsername() {
         return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
     }
 
     @Override
@@ -146,7 +107,5 @@ public class User implements UserDetails {
     public void setPassword(String password) {
         this.password = password;
     }
-
-
 
 }
