@@ -15,7 +15,8 @@
 <!--Navbar-->
 <nav class="navbar align-top text-white navbar-expand-xl navbar-dark bg-dark">
     <div class="container-fluid">
-        <a class="navbar-brand" id="current-user-info"><b th:text="${currentUser.username}"></b> with roles: <b th:each="role : ${currentUser.roles}" th:text="${role.name}"></b></a>
+        <a class="navbar-brand" id="current-user-info"><b th:text="${currentUser.username}"></b> with roles:<b
+                th:each="role : ${currentUser.roles}" th:text="${#strings.replace(role.name, 'ROLE_', '')}"></b></a>
         <div class="text-right">
             <form class="d-flex" action="/logout" method="post">
                 <button class="btn btn-dark text-secondary" type="submit"><strong>Logout</strong></button>
@@ -66,7 +67,8 @@
                                     <td th:text="${currentUser.lastName}"></td>
                                     <td th:text="${currentUser.age}"></td>
                                     <td th:text="${currentUser.username}"></td>
-                                    <td th:each="role : ${currentUser.roles}" th:text="${role.name}"></td>
+                                    <td th:each="role : ${currentUser.roles}"
+                                        th:text="${#strings.replace(role.name, 'ROLE_', '')}"></td>
                                 </tr>
                                 </tbody>
                             </table>

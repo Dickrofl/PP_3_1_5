@@ -1,5 +1,6 @@
-package ru.kata.spring.boot_security.demo.repository;
+package ru.kata.spring.boot_security.demo.service;
 
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -8,19 +9,50 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import ru.kata.spring.boot_security.demo.model.User;
+import ru.kata.spring.boot_security.demo.repository.UserRepository;
 
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class CustomUserDetailsService implements UserDetailsService {
-
-    private UserRepository userRepository;
+public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Autowired
-    public void setUserRepository(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    UserRepository userRepository;
+
+    @Override
+    @Transactional
+    public void saveUser(User user) {
+        userRepository.save(user);
+    }
+
+    @Override
+    @Transactional
+    public void updateUser(User user) {
+        userRepository.save(user);
+
+    }
+
+    @Override
+    @Transactional
+    public void removeUserById(long id) {
+        userRepository.deleteById(id);
+
+    }
+
+    @Override
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
+    }
+
+    @Override
+    public User getUserById(long id) {
+        User user = userRepository.findById(id).orElse(null);
+        if (user != null) {
+            Hibernate.initialize(user); // Принудительная инициализация объекта
+        }
+        return user;
     }
 
     public User findByUsername(String username) {

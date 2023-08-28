@@ -11,7 +11,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-import ru.kata.spring.boot_security.demo.repository.CustomUserDetailsService;
+import ru.kata.spring.boot_security.demo.service.UserService;
 
 import javax.sql.DataSource;
 
@@ -19,11 +19,11 @@ import javax.sql.DataSource;
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-    private final CustomUserDetailsService userService;
+    private final UserService userService;
     private final SuccessUserHandler userHandler;
 
     @Autowired
-    public WebSecurityConfig(CustomUserDetailsService userService, SuccessUserHandler userHandler) {
+    public WebSecurityConfig(UserService userService, SuccessUserHandler userHandler) {
         this.userService = userService;
         this.userHandler = userHandler;
     }

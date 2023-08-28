@@ -3,21 +3,19 @@ package ru.kata.spring.boot_security.demo.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-import ru.kata.spring.boot_security.demo.dao.UserDao;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import ru.kata.spring.boot_security.demo.model.User;
-import ru.kata.spring.boot_security.demo.repository.CustomUserDetailsService;
+import ru.kata.spring.boot_security.demo.service.UserService;
+
 import java.security.Principal;
 
 
 @Controller
 @RequestMapping("/")
 public class UserController {
-
     @Autowired
-    CustomUserDetailsService customUserDetailsService;
-    @Autowired
-    UserDao daoUserService;
+    UserService userService;
 
     @GetMapping("/login")
     public String loginPage() {
@@ -27,8 +25,8 @@ public class UserController {
     @GetMapping("/user")
     public String getUserPage(Principal principal, Model model) {
         String username = principal.getName();
-        User user = customUserDetailsService.findByUsername(username);
-        model.addAttribute("currentUser", daoUserService.getUserById(user.getId()));
+        User user = userService.findByUsername(username);
+        model.addAttribute("currentUser", userService.getUserById(user.getId()));
         return "user";
     }
 }
