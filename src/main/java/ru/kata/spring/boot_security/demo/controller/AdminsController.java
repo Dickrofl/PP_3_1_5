@@ -14,10 +14,13 @@ import ru.kata.spring.boot_security.demo.service.UserService;
 @Controller
 @RequestMapping("/admin")
 public class AdminsController {
-    @Autowired
-    UserService userService;
-    @Autowired
-    RoleService roleService;
+    public AdminsController(UserService userService, RoleService roleService) {
+        this.userService = userService;
+        this.roleService = roleService;
+    }
+
+    private final UserService userService;
+    private final RoleService roleService;
     @GetMapping
     public String showUsersList(@AuthenticationPrincipal UserDetails userDetails, Model model) {
         model.addAttribute("usersList", userService.getAllUsers());
