@@ -17,12 +17,10 @@ public class AdminsController {
 
     private final UserService userService;
     private final RoleService roleService;
-    private final PasswordEncoder passwordEncoder;
-
-    public AdminsController(UserService userService, RoleService roleService, PasswordEncoder passwordEncoder) {
+    public AdminsController(UserService userService, RoleService roleService) {
         this.userService = userService;
         this.roleService = roleService;
-        this.passwordEncoder = passwordEncoder;
+       ;
     }
 
     @GetMapping
@@ -45,11 +43,8 @@ public class AdminsController {
 
     @PostMapping("/new")
     public String saveNewUser(@ModelAttribute("user") User user, @RequestParam("roleId") Long roleId) {
-        String hashedPassword = passwordEncoder.encode(user.getPassword());
-        user.setPassword(hashedPassword);
         roleService.setUserRoles(user, roleId);
         userService.saveUser(user);
-
         return "redirect:/admin";
     }
 
@@ -58,8 +53,6 @@ public class AdminsController {
             @ModelAttribute("user") User user,
             @PathVariable Long userId,
             @PathVariable Long roleId) {
-        String hashedPassword = passwordEncoder.encode(user.getPassword());
-        user.setPassword(hashedPassword);
         roleService.setUserRoles(user, roleId);
         userService.updateUser(user);
         return "redirect:/admin";
